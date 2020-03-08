@@ -1,5 +1,8 @@
 {
   "name": "historical-market-data",
+  "engines": {
+    "node": ">=10.12.0"
+  },
   "version": "1.0.0",
   "description": "A script for downloading historical stock market data",
   "main": "src/index.js",
