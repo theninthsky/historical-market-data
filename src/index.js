@@ -4,16 +4,25 @@ const moment = require('moment')
 
 require('./util/capitalize')
 
-const { type, instrumentIDs, from, to } = require('./config/parameters')
+const {
+  type,
+  instrumentIDs,
+  from,
+  to,
+  timeframe
+} = require('./config/parameters')
 const stocksMap = require('./config/stocks-map')
 
 const fetch = async (type, instrumentIDs, from, to) => {
   const date = moment(from)
 
   for (const instrumentID of instrumentIDs) {
-    const folderPath = `data/${type.capitalize()}/${
-      stocksMap[type][instrumentID]
-    }/${date.format('YYYY')}`
+    const instrumentName =
+      stocksMap[type][instrumentIDs] || instrumentID.toUpperCase()
+
+    const folderPath = `data/${type.capitalize()}/${instrumentName}/${date.format(
+      'YYYY'
+    )}`
 
     if (!existsSync(folderPath)) {
       mkdirSync(folderPath, { recursive: true })
@@ -27,15 +36,14 @@ const fetch = async (type, instrumentIDs, from, to) => {
         .add(1, 'day')
         .format(format)
 
-      const filePath = `data/${type.capitalize()}/${
-        stocksMap[type][instrumentID]
-      }/${date.format('YYYY')}/${fromDate}.csv`
+      const filePath = `data/${type.capitalize()}/${instrumentName}/${date.format(
+        'YYYY'
+      )}/${fromDate}.csv`
 
       try {
         console.log(
-          `Downloading ${
-            stocksMap[type][instrumentID].split`] `[1]
-          } ${fromDate}...`
+          `Downloading ${instrumentName.split`] `[1] ||
+            instrumentName} ${fromDate}...`
         )
 
         const data = await getHistoricRates({
@@ -44,7 +52,7 @@ const fetch = async (type, instrumentIDs, from, to) => {
             from: fromDate,
             to: toDate
           },
-          timeframe: 'tick'
+          timeframe
         })
 
         if (data.length) {
@@ -63,4 +71,4 @@ const fetch = async (type, instrumentIDs, from, to) => {
   }
 }
 
-fetch(type, instrumentIDs, from, to)
+fetch(type, instrumentIDs, from, to, timeframe)

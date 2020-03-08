@@ -1,6 +1,7 @@
 module.exports = {
-  type: 'stocks',
-  instrumentIDs: ['mmmususd'],
+  type: 'forex',
+  instrumentIDs: ['eurusd'],
   from: '2020-01-01',
-  to: '2020-01-07'
+  to: '2020-01-31',
+  timeframe: 'tick'
 }

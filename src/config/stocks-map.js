@@ -1,3 +1,4 @@
+// This file contains mappings of better formatted instrument names
 // Instrument Table: https://www.npmjs.com/package/dukascopy-node#forex
 
 module.exports = {

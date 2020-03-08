@@ -1,15 +1,23 @@
 {
   "name": "historical-market-data",
   "version": "1.0.0",
-  "description": "",
-  "main": "src/app.js",
+  "description": "A script for downloading historical stock market data",
+  "main": "src/index.js",
   "scripts": {
     "start": "node src/index"
   },
-  "author": "",
+  "author": "Almog Gabay",
   "license": "ISC",
   "dependencies": {
     "dukascopy-node": "^1.0.12",
     "moment": "^2.24.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/theninthsky/historical-market-data.git"
+  },
+  "bugs": {
+    "url": "https://github.com/theninthsky/historical-market-data/issues"
+  },
+  "homepage": "https://github.com/theninthsky/historical-market-data#readme"
 }
