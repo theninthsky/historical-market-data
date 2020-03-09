@@ -4,21 +4,19 @@ const moment = require('moment')
 
 require('./util/capitalize')
 
-const {
-  type,
-  instrumentIDs,
-  from,
-  to,
-  timeframe
-} = require('./config/parameters')
-const stocksMap = require('./config/stocks-map')
+const { instrumentIDs, from, to, timeframe } = require('./config/parameters')
+const instrumentMap = require('./config/instrument-map')
 
-const fetch = async (type, instrumentIDs, from, to) => {
-  const date = moment(from)
+const typeByID = require('./lib/type-by-id')
 
+const fetch = async (instrumentIDs, from, to) => {
   for (const instrumentID of instrumentIDs) {
+    const type = typeByID(instrumentID)
+
+    const date = moment(from)
+
     const instrumentName =
-      stocksMap[type][instrumentIDs] || instrumentID.toUpperCase()
+      instrumentMap[type][instrumentID] || instrumentID.toUpperCase()
 
     const folderPath = `data/${type.capitalize()}/${instrumentName}/${date.format(
       'YYYY'
@@ -71,4 +69,4 @@ const fetch = async (type, instrumentIDs, from, to) => {
   }
 }
 
-fetch(type, instrumentIDs, from, to, timeframe)
+fetch(instrumentIDs, from, to, timeframe)
