@@ -5,7 +5,7 @@ A wrapper project around the [dukascopy-node](https://www.npmjs.com/package/duka
 ![Demo](/images/demo.png)
 
 Each file will have the following columns:
-**Timestamp | Ask Price | Bid Price | Ask Volume | Bid Volume**
+**Timestamp | Ask Price | Bid Price | Ask Volume (Millions) | Bid Volume (Millions)**
 
 ## Installing
 
@@ -32,7 +32,7 @@ You should set each value in accordance with your preferences.
 
 **Note**: while the end of the time range in [dukascopy-node](https://www.npmjs.com/package/dukascopy-node) is not inclusive, here it is (i.e. **2020-01-01** to **2020-01-07** will include **2020-01-07**)
 
-There is also a `instrument-map.js` file inside `src/config`, this file contains a better formatted names for various instruments.
+There is also an `instrument-map.js` file inside `src/config`, this file contains a better formatted names for various instruments.
 A good source of formatted names is [Yahoo Finance](https://finance.yahoo.com/).
 
 These mapped names will be used for naming folders.

@@ -45,7 +45,7 @@ module.exports = {
     wbaususd: '[WBA] Walgreens Boots Alliance, Inc.',
     disususd: '[DIS] The Walt Disney Company'
   },
-  'ETF (CFD)': {
+  ETF: {
     diaususd: '[DOW] Dow Inc.'
   },
   crypto: {
