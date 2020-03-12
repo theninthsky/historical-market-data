@@ -2,10 +2,10 @@ const { existsSync, mkdirSync, writeFileSync } = require('fs')
 const { getHistoricRates } = require('dukascopy-node')
 const moment = require('moment')
 
-require('./util/capitalize')
+require('./util/patch')
 
-const { instrumentIDs, from, to, timeframe } = require('./config/parameters')
-const instrumentMap = require('./config/instrument-map')
+const { instrumentIDs, from, to, timeframe } = require('../config')
+const instrumentMap = require('./lib/instrument-map')
 
 const typeByID = require('./lib/type-by-id')
 

@@ -1,4 +1,4 @@
-const instrumentMap = require('../config/instrument-map')
+const instrumentMap = require('./instrument-map')
 
 module.exports = instrumentID => {
   for (const type in instrumentMap) {

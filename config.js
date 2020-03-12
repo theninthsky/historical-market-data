@@ -34,7 +34,7 @@ module.exports = {
     'ethusd',
     'eurusd'
   ],
-  from: '2020-01-15',
-  to: '2020-01-16',
+  from: '2020-01-31',
+  to: '2020-01-31',
   timeframe: 'tick'
 }

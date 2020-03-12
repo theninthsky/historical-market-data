@@ -7,7 +7,10 @@
   "description": "A script for downloading historical stock market data",
   "main": "src/index.js",
   "scripts": {
-    "start": "node src/index"
+    "start": "node src/index",
+    "lint": "eslint .",
+    "test": "npm run lint && jest",
+    "deploy": "npm run lint && git push origin master"
   },
   "author": "Almog Gabay",
   "license": "ISC",
@@ -22,5 +25,9 @@
   "bugs": {
     "url": "https://github.com/theninthsky/historical-market-data/issues"
   },
-  "homepage": "https://github.com/theninthsky/historical-market-data#readme"
+  "homepage": "https://github.com/theninthsky/historical-market-data#readme",
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "jest": "^25.1.0"
+  }
 }
