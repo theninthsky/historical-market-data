@@ -10,7 +10,7 @@
     "start": "node src/index",
     "lint": "eslint .",
     "test": "npm run lint && jest",
-    "deploy": "npm run lint && git push origin master"
+    "deploy": "npm test && git push origin master"
   },
   "author": "Almog Gabay",
   "license": "ISC",
