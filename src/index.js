@@ -2,25 +2,21 @@ const { existsSync, mkdirSync, writeFileSync } = require('fs')
 const { getHistoricRates } = require('dukascopy-node')
 const moment = require('moment')
 
-require('./util/patch')
-
 const { instrumentIDs, from, to, timeframe } = require('../config')
-const instrumentMap = require('./lib/instrument-map')
+const { instruments } = require('dukascopy-node/lib/config/instruments')
 
-const typeByID = require('./lib/type-by-id')
-
-const fetch = async (instrumentIDs, from, to) => {
+const fetch = async (instrumentIDs, from = '0000-00-00', to = Date.now()) => {
   for (const instrumentID of instrumentIDs) {
-    const type = typeByID(instrumentID)
+    const { name, description, minStartDate } = instruments[instrumentID]
 
-    const date = moment(from)
+    const date = moment(
+      moment(from).isSameOrAfter(minStartDate) ? from : minStartDate,
+    )
 
-    const instrumentName =
-      instrumentMap[type][instrumentID] || instrumentID.toUpperCase()
+    const [symbol] = name.match(/(.+?(?=\.))/) || [name.replace('/', '-')]
+    const companyName = description.toUpperCase().replace('VS', 'X')
 
-    const folderPath = `data/${type.capitalize()}/${instrumentName}/${date.format(
-      'YYYY'
-    )}`
+    const folderPath = `data/[${symbol}] ${companyName}/${date.format('YYYY')}`
 
     if (!existsSync(folderPath)) {
       mkdirSync(folderPath, { recursive: true })
@@ -34,23 +30,18 @@ const fetch = async (instrumentIDs, from, to) => {
         .add(1, 'day')
         .format(format)
 
-      const filePath = `data/${type.capitalize()}/${instrumentName}/${date.format(
-        'YYYY'
-      )}/${fromDate}.csv`
+      const filePath = `${folderPath}/${fromDate}.csv`
 
       try {
-        console.log(
-          `Downloading ${instrumentName.split`] `[1] ||
-            instrumentName} ${fromDate}...`
-        )
+        console.log(`Downloading ${companyName} ${fromDate}...`)
 
         const data = await getHistoricRates({
           instrument: instrumentID,
           dates: {
             from: fromDate,
-            to: toDate
+            to: toDate,
           },
-          timeframe
+          timeframe,
         })
 
         if (data.length) {

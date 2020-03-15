@@ -32,9 +32,9 @@ module.exports = {
     'diaususd',
     'btcusd',
     'ethusd',
-    'eurusd'
+    'eurusd',
   ],
-  from: '2020-01-31',
-  to: '2020-01-31',
-  timeframe: 'tick'
+  from: '2020-03-11',
+  to: '2020-03-12',
+  timeframe: 'tick',
 }

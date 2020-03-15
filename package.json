@@ -9,8 +9,7 @@
   "scripts": {
     "start": "node src/index",
     "lint": "eslint .",
-    "test": "npm run lint && jest",
-    "deploy": "npm test && git push origin master"
+    "deploy": "npm run lint && git push origin master"
   },
   "author": "Almog Gabay",
   "license": "ISC",
@@ -19,8 +18,7 @@
     "moment": "^2.24.0"
   },
   "devDependencies": {
-    "eslint": "^6.8.0",
-    "jest": "^25.1.0"
+    "eslint": "^6.8.0"
   },
   "repository": {
     "type": "git",
