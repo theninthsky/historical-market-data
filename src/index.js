@@ -16,21 +16,21 @@ const fetch = async (instrumentIDs, from = '0000-00-00', to = Date.now()) => {
     const [symbol] = name.match(/(.+?(?=\.))/) || [name.replace('/', '-')]
     const companyName = description.toUpperCase().replace('VS', 'X')
 
-    const folderPath = `data/[${symbol}] ${companyName}/${date.format('YYYY')}`
-
-    if (!existsSync(folderPath)) {
-      mkdirSync(folderPath, { recursive: true })
-    }
+    const folderPath = `data/[${symbol}] ${companyName}`
 
     while (date.isSameOrBefore(to)) {
-      const format = 'YYYY-MM-DD'
+      const fullFolderPath = `${folderPath}/${date.format('YYYY')}`
 
-      const fromDate = date.format(format)
+      if (!existsSync(fullFolderPath)) {
+        mkdirSync(fullFolderPath, { recursive: true })
+      }
+
+      const fromDate = date.format('YYYY-MM-DD')
       const toDate = moment(fromDate)
         .add(1, 'day')
-        .format(format)
+        .format('YYYY-MM-DD')
 
-      const filePath = `${folderPath}/${fromDate}.csv`
+      const filePath = `${fullFolderPath}/${fromDate}.csv`
 
       try {
         console.log(`Downloading ${companyName} ${fromDate}...`)
