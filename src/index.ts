@@ -1,11 +1,16 @@
-const { existsSync, mkdirSync, writeFileSync } = require('fs')
-const { getHistoricRates } = require('dukascopy-node')
-const moment = require('moment')
+import { existsSync, mkdirSync, writeFileSync } from 'fs'
+import { getHistoricRates } from 'dukascopy-node'
+import moment from 'moment'
 
-const { instrumentIDs, from, to, timeframe } = require('../config')
-const { instruments } = require('dukascopy-node/lib/config/instruments')
+import { instrumentIDs, from, to, timeframe } from '../parameters'
+import instruments from './config/instruments'
 
-const fetch = async (instrumentIDs, from = '0000-00-00', to = Date.now()) => {
+const fetch = async (
+  instrumentIDs: string[],
+  from: string = '0000-00-00',
+  to: string | number = Date.now(),
+  timeframe: string,
+) => {
   for (const instrumentID of instrumentIDs) {
     const { name, description, minStartDate } = instruments[instrumentID]
 
@@ -47,7 +52,7 @@ const fetch = async (instrumentIDs, from = '0000-00-00', to = Date.now()) => {
         if (data.length) {
           console.log('Succeeded\n')
 
-          writeFileSync(filePath, data.map(row => row.join()).join`\n`)
+          writeFileSync(filePath, data.map(row => row.join()).join('\n'))
         } else {
           throw Error('no data')
         }

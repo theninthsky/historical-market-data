@@ -1,11 +1,8 @@
 # Historical Market Data
 
-A wrapper project around the [dukascopy-node](https://www.npmjs.com/package/dukascopy-node) package which saves each day to a CSV file.
+A wrapper project around the [dukascopy-node](https://www.npmjs.com/package/dukascopy-node) package which saves each exchange day to a separate CSV file.
 
 ![Demo](/images/demo.png)
-
-Each file will have the following columns:
-**Timestamp | Ask Price | Bid Price | Ask Volume (Millions) | Bid Volume (Millions)**
 
 ## Installing
 
@@ -19,7 +16,7 @@ npm i
 
 The Node.js version required to run this program is 10.12.0 or above, since this version introduced recursive directory creation for the first time.
 
-In the root path there is a configuration file called `config.js`, this file will be used during the program's execution.
+In the root path there is a configuration file called `parameters.ts`, this file will be used during the program's execution.
 You should set each value in accordance with your preferences.
 
 `instrumentIDs`: an array of instruments to download
@@ -31,11 +28,6 @@ You should set each value in accordance with your preferences.
 `timeframe`: timeframe aggregation of OHLC (open, high, low, close) data ('tick', 'm1', 'm3'...)
 
 **Note**: while the end of the time range in [dukascopy-node](https://www.npmjs.com/package/dukascopy-node) is not inclusive, here it is (i.e. **2020-01-01** to **2020-01-07** will include **2020-01-07**)
-
-Inside `src/lib` there is an `instrument-map.js` file, this file contains a better formatted names for various instruments.
-A good source of formatted names is [Yahoo Finance](https://finance.yahoo.com/).
-
-These mapped names will be used for naming folders.
 
 To start the program:
 
