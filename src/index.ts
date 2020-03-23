@@ -7,7 +7,7 @@ import instruments from './config/instruments'
 
 const fetch = async (
   instrumentIDs: string[],
-  from: string = '0000-00-00',
+  from = '0000-00-00',
   to: string | number = Date.now(),
   timeframe: string,
 ) => {
