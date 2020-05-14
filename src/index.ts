@@ -31,9 +31,7 @@ const fetch = async (
       }
 
       const fromDate = date.format('YYYY-MM-DD')
-      const toDate = moment(fromDate)
-        .add(1, 'day')
-        .format('YYYY-MM-DD')
+      const toDate = moment(fromDate).add(1, 'day').format('YYYY-MM-DD')
 
       const filePath = `${fullFolderPath}/${fromDate}.csv`
 
@@ -52,7 +50,7 @@ const fetch = async (
         if (data.length) {
           console.log('Succeeded\n')
 
-          writeFileSync(filePath, data.map(row => row.join()).join('\n'))
+          writeFileSync(filePath, data.map((row) => row.join()).join('\n'))
         } else {
           throw Error('no data')
         }
