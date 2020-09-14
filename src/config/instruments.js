@@ -1,17 +1,4 @@
-type Instrument = {
-  name: string
-  description: string
-  minStartDate: string
-  decimalFactor: number
-  minStartDateDaily: string
-  group: string
-}
-
-type InstrumentData = {
-  [key: string]: Instrument
-}
-
-const instruments: InstrumentData = {
+const instruments = {
   aususd: {
     name: 'A.US/USD',
     description: 'AGILENT TECHNOLOGIES INC',

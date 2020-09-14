@@ -1,22 +1,18 @@
-import { existsSync, mkdirSync, writeFileSync } from 'fs'
-import { getHistoricRates } from 'dukascopy-node'
+import { existsSync, mkdirSync } from 'fs'
+import { writeFile } from 'fs/promises'
+import dukascopyNode from 'dukascopy-node'
 import moment from 'moment'
 
-import { instrumentIDs, from, to, timeframe } from '../parameters'
-import instruments from './config/instruments'
+import { instrumentIDs, from, to, timeframe } from '../parameters.js'
+import instruments from './config/instruments.js'
 
-const fetch = async (
-  instrumentIDs: string[],
-  from = '0000-00-00',
-  to: string | number = Date.now(),
-  timeframe: string,
-) => {
+const { getHistoricRates } = dukascopyNode
+
+const fetch = async (instrumentIDs, from = '0000-00-00', to = Date.now(), timeframe) => {
   for (const instrumentID of instrumentIDs) {
     const { name, description, minStartDate } = instruments[instrumentID]
 
-    const date = moment(
-      moment(from).isSameOrAfter(minStartDate) ? from : minStartDate,
-    )
+    const date = moment(moment(from).isSameOrAfter(minStartDate) ? from : minStartDate)
 
     const [symbol] = name.match(/(.+?(?=\.))/) || [name.replace('/', '-')]
     const companyName = description.toUpperCase().replace('VS', 'X')
@@ -48,9 +44,7 @@ const fetch = async (
         })
 
         if (data.length) {
-          console.log('Succeeded\n')
-
-          writeFileSync(filePath, data.map((row) => row.join()).join('\n'))
+          writeFile(filePath, data.map(row => row.join()).join('\n')).then(() => console.log('Succeeded\n'))
         } else {
           throw Error('no data')
         }
