@@ -11,7 +11,7 @@
     "start": "node src/index",
     "dev": "nodemon src/index",
     "lint": "eslint .",
-    "deploy": "npm run lint && git push"
+    "publish": "npm run lint && git push"
   },
   "author": "Almog Gabay",
   "license": "ISC",
