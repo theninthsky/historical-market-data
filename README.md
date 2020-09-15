@@ -14,9 +14,7 @@ npm i
 
 ## Usage
 
-The Node.js version required to run this program is 10.12.0 or above, since this version introduced recursive directory creation for the first time.
-
-In the root path there is a configuration file called `parameters.ts`, this file will be used during the program's execution.
+In the `config` folder there is a file called `parameters.ts`, this file will be used during the program's execution.
 You should set each value in accordance with your preferences.
 
 `instrumentIDs`: an array of instruments to download
