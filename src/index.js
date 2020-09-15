@@ -1,66 +1,57 @@
-import { existsSync, mkdirSync } from 'fs'
-import { writeFile } from 'fs/promises'
+import { existsSync, mkdirSync, writeFileSync } from 'fs'
 import dukascopyNode from 'dukascopy-node'
 
 import './patch.js'
-import parameters from '../parameters.js'
-import instruments from './config/instruments.js'
+import parameters from './config/parameters.js'
+import instruments from './instruments.js'
 
 const { getHistoricRates } = dukascopyNode
-const { instrumentIDs, fromDate = '0000-01-01', toDate = new Date(), timeframe } = parameters
+const { instrumentIDs, fromDate = '1900-01-01', toDate, timeframe } = parameters
 
 const fetch = async (instrumentIDs, fromDate, toDate, timeframe) => {
-  console.log(
-    `Downloading ${instrumentIDs.join(', ')} from ${fromDate
-      .toLocaleDateString('en-GB')
-      .slice(0, 10)} to ${toDate.toLocaleDateString('en-GB')}...\n`,
-  )
-
   for (const instrumentID of instrumentIDs) {
-    const { name, description, minStartDate } = instruments[instrumentID]
-
-    const date = fromDate >= new Date(minStartDate) ? new Date(fromDate) : new Date(minStartDate)
-
+    const { name, description } = instruments[instrumentID]
     const [symbol] = name.match(/(.+?(?=\.))/) || [name.replace('/', '-')]
     const companyName = description.toTitleCase().replace('VS', 'X')
-
     const folderPath = `data/[${symbol}] ${companyName}`
 
-    while (date <= toDate) {
-      const fullFolderPath = `${folderPath}/${date.getFullYear()}`
+    if (!existsSync(folderPath)) mkdirSync(folderPath, { recursive: true })
 
-      if (!existsSync(fullFolderPath)) mkdirSync(fullFolderPath, { recursive: true })
+    console.log(`Downloading [${symbol}] ${companyName} data...\n`)
 
-      const fromDateFormatted = date.toISOString().slice(0, 10)
+    const data = await getHistoricRates({
+      instrument: instrumentID,
+      dates: {
+        from: fromDate,
+        to: toDate || new Date().toISOString().slice(0, 10),
+      },
+      timeframe,
+    })
 
-      date.setDate(date.getDate() + 1)
+    if (data.length > 2) {
+      const dataObject = {}
 
-      const toDateFormatted = date.toISOString().slice(0, 10)
+      data.forEach(row => {
+        const date = new Date(row[0]).toISOString().slice(0, 10)
 
-      try {
-        const data = await getHistoricRates({
-          instrument: instrumentID,
-          dates: {
-            from: fromDateFormatted,
-            to: toDateFormatted,
-          },
-          timeframe,
-        })
+        if (!dataObject[date]) dataObject[date] = []
 
-        if (data.length) {
-          const filePath = `${fullFolderPath}/${fromDateFormatted}.csv`
+        dataObject[date].push(row.toString())
+      })
 
-          writeFile(filePath, data.map(row => row.join()).join('\n')).then(() =>
-            console.log(`[${symbol}] ${companyName} ${fromDateFormatted} ✔`),
-          )
-        } else {
-          console.log(`[${symbol}] ${companyName} ${fromDateFormatted} ❌`)
-        }
-      } catch (err) {
-        console.error(err)
+      for (const day in dataObject) {
+        const filePath = `${folderPath}/${day}.csv`
+
+        writeFileSync(filePath, dataObject[day].join('\n'))
+
+        console.log(`${day} ✔`)
       }
+    } else {
+      console.log('No data ❌')
     }
+
+    console.log()
   }
 }
 
-fetch(instrumentIDs, new Date(fromDate), new Date(toDate), timeframe)
+fetch(instrumentIDs, fromDate, toDate, timeframe)

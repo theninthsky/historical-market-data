@@ -1,8 +1,8 @@
 export default {
   instrumentIDs: [
-    'mmmususd',
-    'axpususd',
-    // 'aaplususd',
+    // 'mmmususd',
+    // 'axpususd',
+    'aaplususd',
     // 'baususd',
     // 'catususd',
     // 'cvxususd',
@@ -18,7 +18,7 @@ export default {
     // 'mcdususd',
     // 'mrkususd',
     // 'msftususd',
-    // 'nkeususd',
+    'nkeususd',
     // 'pfeususd',
     // 'pgususd',
     // 'trvususd',
@@ -34,7 +34,7 @@ export default {
     // 'ethusd',
     // 'eurusd',
   ],
-  fromDate: '2019-12-30',
-  toDate: '2020-01-01',
+  fromDate: '2020-03-02',
+  toDate: '2020-03-10',
   timeframe: 'tick',
 }
