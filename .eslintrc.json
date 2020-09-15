@@ -5,12 +5,10 @@
     "node": true
   },
   "root": true,
-  "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint"],
-  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+  "extends": ["eslint:recommended"],
   "overrides": [
     {
-      "files": ["*.ts"]
+      "files": ["*.js"]
     }
   ],
   "globals": {

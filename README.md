@@ -14,14 +14,14 @@ npm i
 
 ## Usage
 
-In the `config` folder there is a file called `parameters.ts`, this file will be used during the program's execution.
+In the `config` folder there is a file called `parameters.js`, this file will be used during the program's execution.
 You should set each value in accordance with your preferences.
 
 `instrumentIDs`: an array of instruments to download
 
-`from`: UTC-based date string representing start of the time range
+`fromDate`: UTC-based date string representing start of the time range
 
-`to`: UTC-based date string representing end of the time range
+`toDate`: UTC-based date string representing end of the time range
 
 `timeframe`: timeframe aggregation of OHLC (open, high, low, close) data ('tick', 'm1', 'm3'...)
 

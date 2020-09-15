@@ -17,7 +17,7 @@ const fetch = async (instrumentIDs, fromDate, toDate, timeframe) => {
 
     if (!existsSync(folderPath)) mkdirSync(folderPath, { recursive: true })
 
-    console.log(`Downloading [${symbol}] ${companyName} data...\n`)
+    console.log(`Downloading [${symbol}] ${companyName}...\n`)
 
     const data = await getHistoricRates({
       instrument: instrumentID,
@@ -29,20 +29,20 @@ const fetch = async (instrumentIDs, fromDate, toDate, timeframe) => {
     })
 
     if (data.length > 2) {
-      const dataObject = {}
+      const batchedData = {}
 
       data.forEach(row => {
         const date = new Date(row[0]).toISOString().slice(0, 10)
 
-        if (!dataObject[date]) dataObject[date] = []
+        if (!batchedData[date]) batchedData[date] = []
 
-        dataObject[date].push(row.toString())
+        batchedData[date].push(row.toString())
       })
 
-      for (const day in dataObject) {
+      for (const day in batchedData) {
         const filePath = `${folderPath}/${day}.csv`
 
-        writeFileSync(filePath, dataObject[day].join('\n'))
+        writeFileSync(filePath, batchedData[day].join('\n'))
 
         console.log(`${day} ✔`)
       }
