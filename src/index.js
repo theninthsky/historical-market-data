@@ -20,7 +20,7 @@ const fetch = async (instrumentIDs, fromDate, toDate, timeframe) => {
 
     const date = fromDate > startDate ? new Date(fromDate) : startDate
     const [symbol] = name.match(/(.+?(?=\.))/) || [name.replace('/', '-')]
-    const companyName = description.toTitleCase().replace('VS', 'X')
+    const companyName = description.toTitleCase()
     const folderPath = `data/[${symbol}] ${companyName}`
 
     if (!existsSync(folderPath)) mkdirSync(folderPath, { recursive: true })
@@ -52,7 +52,7 @@ const fetch = async (instrumentIDs, fromDate, toDate, timeframe) => {
           console.log(`[${symbol}] ${companyName} ${fromDateFormatted} ❌ (no data)`)
         }
       } catch (err) {
-        console.error(err)
+        console.error(`Error: ${fromDateFormatted} ${err}`)
       }
     }
   }
